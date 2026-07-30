@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ETF 이름을 운용사, 투자 대상, 상품 특징으로 나눠 읽는 방법을 쉽게 설명한 피드형 아티클" />
+  <title>ETF 이름 읽는 법 | DON'T KNOW MONEY</title>
+  <style>
+    :root {
+      --bg-card: #17171d;
+      --surface: #1c1c23;
+      --ink: #f2f2f4;
+      --ink-soft: #9b9ba4;
+      --mark: #ffe65b;
+      --line: rgba(255, 255, 255, .46);
+      --line-soft: rgba(255, 255, 255, .12);
+      --panel: rgba(255, 255, 255, .045);
+      --panel-strong: rgba(255, 230, 91, .08);
+      --nav-accent: var(--mark);
+      --nav-muted: rgba(255, 255, 255, .24);
+      --layout-width: 1040px;
+      --header-width: 1200px;
+      --sheet-width: 760px;
+      --text-width: 580px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-card: #17171d;
+        --surface: #1c1c23;
+        --ink: #f2f2f4;
+        --ink-soft: #9b9ba4;
+        --mark: #ffe65b;
+        --line: rgba(255, 255, 255, .46);
+        --line-soft: rgba(255, 255, 255, .12);
+        --panel: rgba(255, 255, 255, .045);
+        --panel-strong: rgba(255, 230, 91, .08);
+        --nav-accent: var(--mark);
+        --nav-muted: rgba(255, 255, 255, .24);
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg-card: #17171d;
+      --surface: #1c1c23;
+      --ink: #f2f2f4;
+      --ink-soft: #9b9ba4;
+      --mark: #ffe65b;
+      --line: rgba(255, 255, 255, .46);
+      --line-soft: rgba(255, 255, 255, .12);
+      --panel: rgba(255, 255, 255, .045);
+      --panel-strong: rgba(255, 230, 91, .08);
+      --nav-accent: var(--mark);
+      --nav-muted: rgba(255, 255, 255, .24);
+    }
+    :root[data-theme="light"] {
+      --bg-card: #17171d;
+      --surface: #1c1c23;
+      --ink: #f2f2f4;
+      --ink-soft: #9b9ba4;
+      --mark: #ffe65b;
+      --line: rgba(255, 255, 255, .46);
+      --line-soft: rgba(255, 255, 255, .12);
+      --panel: rgba(255, 255, 255, .045);
+      --panel-strong: rgba(255, 230, 91, .08);
+      --nav-accent: var(--mark);
+      --nav-muted: rgba(255, 255, 255, .24);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      color: var(--ink);
+      background: var(--bg-card);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif;
+      line-height: 1.68;
+      word-break: keep-all;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(23, 23, 29, .9);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      width: min(calc(100% - 48px), var(--header-width));
+      margin: 0 auto;
+      padding: 18px 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+      color: var(--ink);
+    }
+
+    .brand::before {
+      content: "";
+      width: 3px;
+      height: 38px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .brand-wordmark {
+      display: grid;
+      gap: 1px;
+      font-size: 14px;
+      font-weight: 680;
+      line-height: .9;
+      letter-spacing: .01em;
+    }
+
+    .brand-apostrophe {
+      color: var(--mark);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      color: #c7c7cc;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .nav a {
+      white-space: nowrap;
+      transition: color .2s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--ink);
+    }
+
+    .menu-toggle {
+      display: none;
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 720;
+      letter-spacing: .04em;
+      cursor: pointer;
+    }
+
+    .page {
+      position: relative;
+      width: 100%;
+      min-height: calc(100vh - 69px);
+      margin: 0 auto;
+      padding: 34px clamp(24px, 6vw, 44px) 0;
+      background: var(--bg-card);
+      display: block;
+    }
+
+    .page::after {
+      content: none;
+    }
+
+    .article {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: var(--sheet-width);
+      margin: 0 auto;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .section-nav {
+      position: fixed;
+      top: 94px;
+      left: calc(50% + (var(--sheet-width) / 2) + 34px);
+      width: min(176px, calc(50vw - (var(--sheet-width) / 2) - 48px));
+      z-index: 20;
+      padding-top: 94px;
+      color: var(--ink-soft);
+    }
+
+    .section-nav a {
+      display: block;
+      margin-bottom: 14px;
+      padding: 0 0 1px 13px;
+      border-left: 2px solid var(--nav-muted);
+      color: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: -.015em;
+    }
+
+    .section-nav a.active {
+      border-left-color: var(--nav-accent);
+      color: var(--ink);
+    }
+
+    .social-nav {
+      position: fixed;
+      top: 188px;
+      right: calc(50% + (var(--sheet-width) / 2) + 34px);
+      z-index: 20;
+      display: grid;
+      gap: 10px;
+    }
+
+    .social-nav a {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 16px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, .015);
+      transition: color .16s ease, border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+
+    .social-nav svg {
+      width: 23px;
+      height: 23px;
+      display: block;
+    }
+
+    .social-nav a:hover {
+      border-color: var(--mark);
+      background: rgba(255, 230, 91, .08);
+      color: var(--ink);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      align-items: start;
+      padding: 48px 64px 52px;
+      border-bottom: 0;
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .eyebrow {
+      position: static;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      justify-self: start;
+      min-width: 72px;
+      padding: 5px 9px;
+      transform: none;
+      background: var(--mark);
+      color: #17171d;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+
+    h1 {
+      grid-column: 1;
+      width: min(100%, 620px);
+      margin: 26px 0 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", sans-serif;
+      font-size: clamp(40px, 6vw, 54px);
+      line-height: 1.12;
+      letter-spacing: -.052em;
+      font-weight: 760;
+      text-align: left;
+      transform: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hero p {
+      grid-column: 1;
+      width: min(100%, var(--text-width));
+      margin: 0;
+      color: var(--ink-soft);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.64;
+      text-align: left;
+      letter-spacing: -.01em;
+    }
+
+    .meta {
+      grid-column: 1;
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 7px;
+      color: var(--ink-soft);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .meta span {
+      padding: 5px 8px;
+      background: rgba(255, 230, 91, .1);
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .content {
+      position: relative;
+      width: min(100%, var(--text-width));
+      margin: 0 auto;
+      padding: 56px 0 72px;
+      background: transparent;
+    }
+
+    .intro-block {
+      padding: 0 0 46px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .intro-block > :last-child,
+    .article-section > :last-child {
+      margin-bottom: 0;
+    }
+
+    .article-section {
+      position: relative;
+      padding: 52px 0;
+      border-top: 1px solid var(--line-soft);
+      border-bottom: 0;
+      scroll-margin-top: 92px;
+    }
+
+    .article-section:last-of-type {
+      padding-bottom: 0;
+    }
+
+    .article-section:last-of-type h2 {
+      margin-bottom: 34px;
+    }
+
+    .lead {
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.22;
+      font-weight: 650;
+      margin-bottom: 36px;
+      letter-spacing: -.05em;
+      text-align: left;
+    }
+
+    h2 {
+      position: relative;
+      margin: 0 0 36px;
+      padding: 0;
+      border-top: 0;
+      font-family: inherit;
+      font-size: 30px;
+      line-height: 1.22;
+      letter-spacing: -.05em;
+      font-weight: 650;
+      transform: none;
+      transform-origin: left;
+    }
+
+    h2::before {
+      content: none;
+    }
+
+    h3 {
+      margin: 24px 0 6px;
+      font-size: 16.5px;
+      line-height: 1.45;
+      letter-spacing: -.02em;
+      font-weight: 560;
+    }
+
+    p {
+      margin: 0 0 15px;
+      font-size: 16px;
+      line-height: 1.68;
+      letter-spacing: -.012em;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .quote {
+      margin: 24px 0;
+      padding: 0 0 0 18px;
+      border: 0;
+      border-left: 2px solid var(--mark);
+      background: transparent;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 560;
+      line-height: 1.62;
+      text-align: left;
+      letter-spacing: -.025em;
+    }
+
+    .highlight {
+      padding: 0 .06em;
+      font-weight: 560;
+      background: linear-gradient(transparent 62%, rgba(255, 230, 91, .34) 62%);
+      border-radius: 0;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      mix-blend-mode: multiply;
+    }
+
+    .analogy {
+      margin: 22px 0 24px;
+      padding: 0 0 0 18px;
+      border: 0;
+      border-left: 2px solid var(--mark);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .analogy p {
+      margin: 4px 0;
+      font-size: 15.5px;
+      font-weight: 500;
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    .analogy p::before {
+      content: none;
+    }
+
+    .reason-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 24px 0 4px;
+      border-top: 0;
+      counter-reset: reason;
+    }
+
+    .reason-card {
+      counter-increment: reason;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      column-gap: 10px;
+      min-height: 0;
+      padding: 18px 20px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      background: rgba(255, 255, 255, .025);
+      border-radius: 0;
+    }
+
+    .reason-card::before {
+      content: "0" counter(reason);
+      grid-row: 1 / span 2;
+      align-self: start;
+      display: flex;
+      align-items: flex-start;
+      height: calc((17px * 1.42) + 8px + (15px * 1.68));
+      color: var(--mark);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.42;
+      letter-spacing: .02em;
+    }
+
+    .reason-card h3,
+    .reason-card p {
+      grid-column: 2;
+    }
+
+    .reason-card h3 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.42;
+      font-weight: 600;
+    }
+
+    .reason-card p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.68;
+      text-align: left;
+    }
+
+    .comparison-wrap {
+      margin: 24px 0 18px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    table {
+      width: 100%;
+      min-width: 560px;
+      border-collapse: collapse;
+      background: transparent;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, .18);
+      border-right: 1px solid rgba(255, 255, 255, .18);
+      text-align: center;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    th:last-child, td:last-child {
+      border-right: 0;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    thead th {
+      background: rgba(255, 255, 255, .035);
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
+      vertical-align: middle;
+    }
+
+    thead th:last-child {
+      background: rgba(255, 255, 255, .035);
+      color: var(--ink);
+    }
+
+    td strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    tbody td:first-child {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .takeaway {
+      margin-top: 56px;
+      padding: 46px 0 0;
+      border-top: 1px solid var(--line-soft);
+      border-bottom: 0;
+      background: transparent;
+      color: var(--ink);
+      border-radius: 0;
+    }
+
+    .takeaway::before {
+      content: "KEY INSIGHT";
+      display: block;
+      margin-bottom: 16px;
+      color: var(--mark);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: .12em;
+    }
+
+    .takeaway p {
+      margin: 0;
+      font-family: inherit;
+      font-size: 23px;
+      font-weight: 650;
+      line-height: 1.55;
+      text-align: left;
+      letter-spacing: -.035em;
+    }
+
+    .takeaway span {
+      background: none;
+      border-radius: 0;
+      padding: 0;
+      color: inherit;
+    }
+
+    .footer-note {
+      margin-top: 34px;
+      padding: 18px 0 0;
+      border-top: 1px solid var(--line-soft);
+      color: var(--ink-soft);
+      font-size: 12.5px;
+      line-height: 1.7;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      max-width: var(--sheet-width);
+      margin: 0 auto;
+      padding: 16px clamp(24px, 6vw, 44px) 24px;
+      border-top: 0;
+      color: var(--ink-soft);
+      font-size: 11.5px;
+      font-weight: 600;
+      display: block;
+      text-align: center;
+      gap: 10px;
+    }
+
+    @media (max-width: 1180px) {
+      .section-nav,
+      .social-nav {
+        display: none;
+      }
+    }
+
+    .content > section {
+      padding: 52px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .content > section:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+    .content > section > :last-child {
+      margin-bottom: 0;
+    }
+
+    .content > section:last-of-type {
+      padding-bottom: 0;
+    }
+
+
+    .content > section > h2 {
+      margin: 0 0 30px;
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.22;
+      letter-spacing: -.035em;
+      font-weight: 700;
+    }
+
+    @media (max-width: 760px) {
+      .header-inner {
+        width: auto;
+        padding: 14px 18px 12px;
+      }
+
+      .brand::before {
+        height: 34px;
+        width: 3px;
+      }
+
+      .brand-wordmark {
+        font-size: 13px;
+      }
+
+      .nav {
+        position: absolute;
+        top: 100%;
+        left: 18px;
+        right: 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 16px 0 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, .12);
+        background: rgba(23, 23, 29, .96);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease;
+      }
+
+      .site-header.menu-open .nav {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav a {
+        width: 100%;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, .1);
+        font-size: 18px;
+        font-weight: 720;
+      }
+
+      .nav a:last-child {
+        border-bottom: 0;
+      }
+
+      .nav a.active {
+        color: var(--mark);
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 54px;
+        min-height: 38px;
+      }
+
+      .page {
+        display: block;
+        max-width: var(--sheet-width);
+        padding-top: 34px;
+      }
+
+      .hero {
+        padding: 40px 28px 42px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        justify-self: center;
+      }
+
+      h1 {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero p {
+        width: 100%;
+        text-align: center;
+      }
+
+      .meta {
+        justify-content: center;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .content {
+        padding: 48px 0 56px;
+      }
+
+      .intro-block {
+        padding-bottom: 42px;
+      }
+
+      .article-section {
+        padding: 48px 0;
+      }
+
+      .lead,
+      p {
+        font-size: 16px;
+        line-height: 1.68;
+      }
+
+      .lead {
+        font-size: 27px;
+        line-height: 1.22;
+      }
+
+      h2 {
+        font-size: 27px;
+        margin-bottom: 30px;
+      }
+
+      .reason-card {
+        min-height: auto;
+      }
+
+      .quote {
+        font-size: 16px;
+        padding-left: 16px;
+      }
+
+      .takeaway p {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .page {
+        padding-inline: 20px;
+      }
+
+      .header-inner,
+      .site-footer {
+        padding-inline: 20px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .hero p,
+      .lead,
+      p {
+        font-size: 15px;
+      }
+
+      .lead {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 24px;
+        margin-bottom: 26px;
+      }
+
+      .quote,
+      .analogy,
+      .takeaway {
+        margin-inline: 0;
+      }
+    }
+  
+
+    /* Shared article fallbacks for legacy article markup */
+    h2[id] { scroll-margin-top: 110px; }
+
+    .content > h2 {
+      margin: 52px 0 30px;
+      padding-top: 52px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1.22;
+      letter-spacing: -.035em;
+      font-weight: 700;
+    }
+
+    .content > h2:first-of-type {
+      margin-top: 42px;
+    }
+
+    .content > p + h2,
+    .content > div + h2,
+    .content > ul + h2,
+    .content > blockquote + h2 {
+      margin-top: 52px;
+    }
+
+    .content > .comparison,
+    .compare,
+    .roadmap,
+    .name-breakdown,
+    .choice-box {
+      margin: 28px 0 36px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .content > .comparison.three,
+    .name-breakdown {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .comparison-card,
+    .roadmap-card,
+    .name-card,
+    .card,
+    .choice-card,
+    .warning {
+      border: 1px solid var(--line-soft);
+      border-radius: 0;
+      background: var(--panel);
+      padding: 22px 22px 20px;
+      color: var(--ink);
+    }
+
+    .comparison-card h3,
+    .roadmap-card h3,
+    .name-card h3,
+    .card h3,
+    .choice-card h3,
+    .warning-title {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.45;
+      font-weight: 700;
+      letter-spacing: -.025em;
+    }
+
+    .comparison-card p,
+    .roadmap-card p,
+    .name-card p,
+    .card p,
+    .choice-card p,
+    .warning p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 15.5px;
+      line-height: 1.65;
+      text-align: left;
+    }
+
+    .highlight,
+    mark,
+    strong {
+      color: inherit;
+      background: linear-gradient(transparent 62%, rgba(255, 230, 91, .34) 62%);
+      font-weight: 650;
+    }
+
+    .quote,
+    blockquote {
+      margin: 30px 0;
+      padding: 0 0 0 20px;
+      border-left: 2px solid var(--mark);
+      color: var(--ink);
+      background: transparent;
+      font-size: 18px;
+      line-height: 1.6;
+      font-weight: 600;
+      letter-spacing: -.025em;
+    }
+
+    ul,
+    ol {
+      margin: 22px 0 28px;
+      padding-left: 22px;
+      color: var(--ink-soft);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .takeaway small,
+    .insight small {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--mark);
+      font-size: 13px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .insight {
+      margin: 56px 0 0;
+      padding: 46px 0 0;
+      border-top: 1px solid var(--line-soft);
+      background: transparent;
+      color: var(--ink);
+      font-size: clamp(26px, 3.8vw, 36px);
+      line-height: 1.55;
+      font-weight: 700;
+      letter-spacing: -.035em;
+    }
+
+    .insight p { margin: 0; color: var(--ink); font-size: inherit; line-height: inherit; font-weight: inherit; }
+
+    .footer-note,
+    .content > .footer,
+    p.footer {
+      margin: 34px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--ink-soft);
+      font-size: 13px;
+      line-height: 1.7;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    @media (max-width: 760px) {
+      .content > h2 {
+        margin-top: 48px;
+        padding-top: 48px;
+        font-size: 27px;
+      }
+
+      .content > .comparison,
+      .compare,
+      .roadmap,
+      .name-breakdown,
+      .choice-box,
+      .content > .comparison.three {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+    <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand" aria-label="DON'T KNOW MONEY 홈">
+        <span class="brand-wordmark" aria-hidden="true">
+          <span>DON<span class="brand-apostrophe">'</span>T</span>
+          <span>KNOW</span>
+          <span>MONEY</span>
+        </span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-text">MENU</span>
+      </button>
+
+      <nav class="nav" id="site-nav" aria-label="주요 메뉴">
+        <a class="active" href="index.html">MAGAZINE</a>
+        <a href="about.html">ABOUT US</a>
+        <a href="index.html#feed">FEED</a>
+        <a href="#">QUIZ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <article class="article">
+      <section class="hero">
+        <span class="eyebrow">WHAT</span>
+        <h1>ETF 이름 읽는 법</h1>
+        <p>
+          ETF 이름은 암호가 아니라 상품 설명서의 제목입니다.
+          세 부분으로 나눠 읽으면 어떤 상품인지 훨씬 쉽게 이해할 수 있습니다.
+        </p>
+        <div class="meta">
+          <span>#ETF이름</span>
+          <span>#운용사</span>
+          <span>#투자기초</span>
+          <span>#ETF공부</span>
+          <span>#초보투자자</span>
+        </div>
+      </section>
+
+      <div class="content">
+        <p class="lead">🏷️  ETF 이름은 설명서입니다.</p>
+
+        <p>
+          ETF를 처음 사보려고 하면 생각보다 이름에서부터 막힙니다.
+          KODEX 반도체, TIGER 반도체 TOP10, ACE KRX금현물, KODEX 미국S&amp;P500처럼
+          비슷한 것 같은데 이름은 다르고, 처음 보는 영어와 약자가 붙어 있으니
+          “도대체 뭐가 다른 거지?”라는 생각이 들기 쉽습니다.
+          하지만 ETF 이름은 어렵게 만든 암호가 아닙니다.
+          <span class="highlight">누가 만들었는지, 어디에 투자하는지, 어떤 특징을 가진 상품인지</span>가
+          한 줄 안에 담긴 상품 설명서의 제목에 가깝습니다.
+          이 원리만 이해하면 앞으로 새로운 ETF를 만나도 훨씬 쉽게 읽을 수 있습니다.
+        </p>
+
+        <h2 id="11-how-to-read-etf-names-section-1">🏢  ETF를 만드는 곳</h2>
+
+        <p>
+          먼저 ETF를 이해하려면 자산운용사부터 알아야 합니다.
+          자산운용사는 많은 투자자의 돈을 모아 전문가가 대신 운용하는 금융회사입니다.
+          ETF도 바로 이런 자산운용사가 만들고 관리합니다.
+        </p>
+
+        <p>
+          그리고 각 운용사는 자신만의 ETF 브랜드를 가지고 있습니다.
+          KODEX, TIGER, ACE, SOL, RISE처럼 ETF 이름 맨 앞에 붙는 단어는 대부분
+          어느 운용사가 만든 상품인지 알려주는 이름표입니다.
+        </p>
+
+        <div class="analogy">
+          <p>🚗 자동차에 현대, 기아, BMW 로고가 붙듯</p>
+          <p>📈 ETF에도 누가 만든 상품인지 알려주는 브랜드명이 붙습니다.</p>
+        </div>
+
+        <h2 id="11-how-to-read-etf-names-section-2">🔤  이름은 세 부분</h2>
+
+        <p>
+          예를 들어 <strong>KODEX 코스피 TR</strong>이라는 이름을 살펴보겠습니다.
+          처음에는 길어 보이지만 세 부분으로 나누면 구조가 단순해집니다.
+        </p>
+
+        <div class="name-structure">
+          <section class="name-card">
+            <small>운용사 브랜드</small>
+            <h3>KODEX</h3>
+            <p>어느 자산운용사가 만든 ETF인지 알려줍니다.</p>
+          </section>
+          <section class="name-card">
+            <small>투자 대상</small>
+            <h3>코스피</h3>
+            <p>어떤 시장이나 자산을 따라가는 상품인지 보여줍니다.</p>
+          </section>
+          <section class="name-card">
+            <small>상품 특징</small>
+            <h3>TR</h3>
+            <p>배당 처리 방식 등 상품의 운용 특성을 설명합니다.</p>
+          </section>
+        </div>
+
+        <p>
+          즉 ETF 이름에는 <span class="highlight">누가 만들었고, 무엇에 투자하며,
+          어떤 방식으로 운용되는지</span>가 순서대로 담겨 있습니다.
+          사람 이름을 성과 이름으로 나누어 읽듯 ETF도 일정한 규칙에 따라 끊어 읽으면 됩니다.
+        </p>
+
+        <h2 id="11-how-to-read-etf-names-section-3">🤔  비슷한 ETF가 많은 이유</h2>
+
+        <p>
+          반도체 ETF만 검색해도 여러 상품이 나옵니다.
+          모두 같은 반도체 산업에 투자하는 것처럼 보이지만,
+          운용사마다 추종하는 지수와 종목 구성, 종목별 비중이 조금씩 다를 수 있습니다.
+        </p>
+
+        <p>
+          어떤 ETF는 삼성전자와 SK하이닉스 비중이 높고,
+          어떤 ETF는 반도체 장비 기업이나 소재 기업까지 넓게 담습니다.
+          코스피나 S&amp;P500 같은 지수 ETF도 운용 방식과 비용, 분배금 처리 방식에 따라 차이가 생길 수 있습니다.
+        </p>
+
+        <div class="quote">
+          같은 커피라도 카페마다 원두와 레시피가 다르듯,<br>
+          같은 분야의 ETF도 안에 담긴 구성은 조금씩 다를 수 있습니다.
+        </div>
+
+        <h2 id="11-how-to-read-etf-names-section-4">🏷️  이름 뒤 단어 확인</h2>
+
+        <p>
+          ETF를 보다 보면 TR, 레버리지, 인버스, 환헤지(H) 같은 표현이 자주 등장합니다.
+          이 단어들은 투자 대상보다 <span class="highlight">상품의 성격과 작동 방식</span>을 설명합니다.
+        </p>
+
+        <div class="example-box">
+          <div class="example-title">이름 뒤에 붙는 대표 표현</div>
+          <div class="example-row">
+            <strong>TR</strong>
+            <span>분배금을 바로 지급하기보다 지수 계산상 재투자하는 방식과 관련된 표현입니다.</span>
+          </div>
+          <div class="example-row">
+            <strong>레버리지</strong>
+            <span>기초지수의 일간 움직임보다 더 크게 움직이도록 설계된 고위험 상품입니다.</span>
+          </div>
+          <div class="example-row">
+            <strong>인버스</strong>
+            <span>기초지수가 하락할 때 수익이 나도록 반대 방향을 추종하는 상품입니다.</span>
+          </div>
+          <div class="example-row">
+            <strong>환헤지(H)</strong>
+            <span>해외자산 투자 시 환율 변동의 영향을 줄이도록 설계된 상품입니다.</span>
+          </div>
+        </div>
+
+        <p>
+          자동차를 살 때 같은 모델이라도 전기차인지, 하이브리드인지,
+          사륜구동인지 확인하는 것과 비슷합니다.
+          ETF를 고를 때는 앞의 투자 대상뿐 아니라 뒤에 붙은 표현까지 함께 읽어야 합니다.
+        </p>
+
+        <h2 id="11-how-to-read-etf-names-section-5">🧭  이름을 알면 쉬워집니다</h2>
+
+        <p>
+          처음에는 ETF 종류가 너무 많아 복잡하게 느껴질 수 있습니다.
+          하지만 이름을 <strong>운용사 → 투자 대상 → 상품 특징</strong>으로 나누어 읽는 습관이 생기면,
+          처음 보는 ETF도 어떤 상품인지 빠르게 짐작할 수 있습니다.
+        </p>
+
+        <p>
+          물론 이름만 보고 투자 결정을 내려서는 안 됩니다.
+          실제로는 추종지수, 구성 종목, 총보수, 거래량, 분배금 정책과 위험 구조까지 확인해야 합니다.
+          다만 이름을 읽을 줄 알면 상품설명서를 살펴볼 출발점이 훨씬 분명해집니다.
+        </p>
+
+        <div class="takeaway">
+          <p>
+            <span>ETF는 외워야 하는 상품이 아니라,<br>
+            이름 속 의미를 읽을 줄 알아야 하는 상품입니다.</span>
+          </p>
+        </div>
+
+        <p class="footer-note">본 콘텐츠는 금융과 투자 개념을 쉽게 이해하기 위한 교육용 자료이며, 특정 금융상품이나 종목의 매수·매도를 권유하지 않습니다. 콘텐츠에 포함된 정보는 작성 시점의 일반적인 자료를 바탕으로 하며, 실제 상품 구조와 조건은 금융상품별로 다를 수 있습니다. 투자 전에는 상품설명서, 공시자료, 운용사 및 금융기관의 공식 자료를 반드시 확인하시기 바랍니다. 모든 투자 판단과 그에 따른 책임은 투자자 본인에게 있습니다.</p>
+      </div>
+    </article>
+    <aside class="social-nav" aria-label="소셜 링크">
+      <a href="https://www.instagram.com/dont.knowdon/" target="_blank" rel="noopener noreferrer" aria-label="인스타그램">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"></rect>
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"></circle>
+        </svg>
+      </a>
+      <a href="https://www.threads.com/@dont.knowdon?hl=ko" target="_blank" rel="noopener noreferrer" aria-label="쓰레드">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M17.8 8.4c-.9-3-3.1-4.7-6.1-4.7-3.7 0-6.4 2.9-6.4 8.2 0 5.4 2.8 8.4 6.7 8.4 3.4 0 5.9-2 5.9-4.9 0-2.7-2.1-4.3-5.3-4.3-2 0-3.4.9-3.4 2.4 0 1.3 1.1 2.2 2.7 2.2 2.6 0 4.4-1.8 4.4-4.3 0-1-.2-2-.7-2.9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </aside>
+    <aside class="section-nav" aria-label="섹션 목차">
+      <a href="#11-how-to-read-etf-names-section-1" class="active">ETF를 만드는 곳</a>
+      <a href="#11-how-to-read-etf-names-section-2">이름은 세 부분</a>
+      <a href="#11-how-to-read-etf-names-section-3">비슷한 ETF가 많은 이유</a>
+      <a href="#11-how-to-read-etf-names-section-4">이름 뒤 단어 확인</a>
+      <a href="#11-how-to-read-etf-names-section-5">이름을 알면 쉬워집니다</a>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    © DON'T KNOW MONEY
+  </footer>
+  <script>
+    const siteHeader = document.querySelector(".site-header");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const menuToggleText = document.querySelector(".menu-toggle-text");
+    const menuLinks = document.querySelectorAll(".nav a");
+
+    menuToggle?.addEventListener("click", () => {
+      const isOpen = siteHeader.classList.toggle("menu-open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggleText.textContent = isOpen ? "CLOSE" : "MENU";
+    });
+
+    menuLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        siteHeader.classList.remove("menu-open");
+        menuToggle?.setAttribute("aria-expanded", "false");
+        if (menuToggleText) menuToggleText.textContent = "MENU";
+      });
+    });
+
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll(".section-nav a"));
+      var sections = links.map(function (link) {
+        var id = link.getAttribute("href").replace(/^#/, "");
+        return document.getElementById(id);
+      }).filter(Boolean);
+
+      function setActive(id) {
+        links.forEach(function (link) {
+          link.classList.toggle("active", link.getAttribute("href") === "#" + id);
+        });
+      }
+
+      function updateActive() {
+        var current = sections[0];
+        var offset = 140;
+
+        sections.forEach(function (section) {
+          if (section.getBoundingClientRect().top <= offset) {
+            current = section;
+          }
+        });
+
+        if (current) setActive(current.id);
+      }
+
+      links.forEach(function (link) {
+        link.addEventListener("click", function () {
+          var id = link.getAttribute("href").replace(/^#/, "");
+          var target = document.getElementById(id);
+          if (target) setActive(target.id);
+        });
+      });
+
+      updateActive();
+      window.addEventListener("scroll", updateActive, { passive: true });
+      window.addEventListener("resize", updateActive);
+    })();
+  </script>
+</body>
+</html>
