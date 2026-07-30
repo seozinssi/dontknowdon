@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABOUT US | DON'T KNOW MONEY</title>
+  <style>
+    :root {
+      --bg: #17171d;
+      --line: rgba(255,255,255,.3);
+      --soft-line: rgba(255,255,255,.16);
+      --text: #f2f2f4;
+      --muted: #9b9ba4;
+      --accent: #ffe65b;
+      --header-height: 64px;
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-height);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      background: rgba(23,23,29,.9);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      width: min(calc(100% - 48px), var(--max-width));
+      height: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+
+    .brand::before {
+      content: "";
+      width: 3px;
+      height: 38px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .brand-wordmark {
+      display: grid;
+      gap: 1px;
+      font-size: 14px;
+      font-weight: 680;
+      line-height: .9;
+      letter-spacing: .01em;
+    }
+
+    .brand-apostrophe,
+    .accent {
+      color: var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #c7c7cc;
+    }
+
+    .nav a {
+      transition: color .2s ease;
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #fff;
+    }
+
+    .about-layout {
+      width: min(calc(100% - 48px), var(--max-width));
+      min-height: calc(100vh - var(--header-height));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(240px, 30%) minmax(0, 1fr);
+      gap: clamp(48px, 5.5vw, 86px);
+      padding: 64px 0 96px;
+    }
+
+    .about-aside {
+      position: sticky;
+      top: calc(var(--header-height) + 56px);
+      height: calc(100vh - var(--header-height) - 112px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-wordmark {
+      margin: 0;
+      font-size: clamp(58px, 7vw, 104px);
+      font-weight: 660;
+      line-height: .92;
+      letter-spacing: -0.055em;
+    }
+
+    .about-label {
+      color: var(--accent);
+    }
+
+    .about-tagline {
+      max-width: 520px;
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(22px, 2.2vw, 34px);
+      font-weight: 650;
+      line-height: 1.38;
+      letter-spacing: -0.045em;
+      word-break: keep-all;
+    }
+
+    .about-main {
+      min-width: 0;
+    }
+
+    .about-section {
+      padding: clamp(58px, 5.5vw, 82px) 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .about-section:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 22px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 720;
+      line-height: 1;
+      letter-spacing: .12em;
+    }
+
+    .about-title {
+      max-width: 860px;
+      margin: 0;
+      font-size: clamp(34px, 3.6vw, 56px);
+      font-weight: 620;
+      line-height: 1.12;
+      letter-spacing: -0.055em;
+      word-break: keep-all;
+    }
+
+    .about-copy {
+      max-width: 760px;
+      margin: 30px 0 0;
+      color: var(--muted);
+      font-size: clamp(15.5px, 1.12vw, 18px);
+      font-weight: 460;
+      line-height: 1.76;
+      letter-spacing: -0.035em;
+      word-break: keep-all;
+    }
+
+    .about-copy strong {
+      color: var(--text);
+      font-weight: 620;
+    }
+
+    .closing-title {
+      max-width: 820px;
+      margin: 0;
+      font-size: clamp(34px, 4.2vw, 64px);
+      font-weight: 660;
+      line-height: 1.12;
+      letter-spacing: -0.058em;
+      word-break: keep-all;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 44px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border: 1px solid rgba(255,255,255,.3);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 660;
+      letter-spacing: -0.02em;
+      transition:
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease;
+    }
+
+    .button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .button:hover {
+      border-color: var(--text);
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    @media (max-width: 1024px) {
+      .nav {
+        display: none;
+      }
+
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 46px;
+        min-height: auto;
+        padding: 54px 0 76px;
+      }
+
+      .about-aside {
+        position: static;
+        height: auto;
+        gap: 42px;
+      }
+
+      .about-wordmark {
+        font-size: clamp(58px, 14vw, 104px);
+      }
+
+      .about-section {
+        padding: 58px 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner,
+      .about-layout {
+        width: min(calc(100% - 30px), var(--max-width));
+      }
+
+      .brand::before {
+        height: 34px;
+      }
+
+      .brand-wordmark {
+        font-size: 13px;
+      }
+
+      .about-title {
+        font-size: clamp(32px, 10vw, 48px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DON'T KNOW MONEY 홈">
+        <span class="brand-wordmark" aria-hidden="true">
+          <span>DON<span class="brand-apostrophe">'</span>T</span>
+          <span>KNOW</span>
+          <span>MONEY</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="index.html">MAGAZINE</a>
+        <a class="active" href="about.html">ABOUT US</a>
+        <a href="index.html#feed">FEED</a>
+        <a href="#">QUIZ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="about-layout">
+    <aside class="about-aside" aria-labelledby="about-wordmark">
+      <div>
+        <h1 class="about-wordmark" id="about-wordmark">
+          DON<span class="brand-apostrophe">'</span>T<br />
+          KNOW<br />
+          MONEY<br />
+          <span class="about-label">ABOUT</span>
+        </h1>
+      </div>
+
+      <p class="about-tagline">
+        쉽게 요약하고,<br />
+        함께 이해하는 돈 이야기.
+      </p>
+    </aside>
+
+    <div class="about-main">
+      <section class="about-section" aria-labelledby="intro-title">
+        <p class="eyebrow">01 OUR START</p>
+        <h2 class="about-title" id="intro-title">
+          돈을 모르는 건<br />
+          부끄러운 일이 아닙니다.
+        </h2>
+        <p class="about-copy">
+          우리는 누구나 돈을 처음 배우는 순간이 있다고 믿습니다. 하지만 학교에서도, 사회에서도 금융은 체계적으로 배우기 어려운 분야였습니다.
+          경제 뉴스는 낯선 용어로 가득하고, 투자 이야기는 이미 모든 사람이 알고 있다는 전제 위에서 시작됩니다.
+          그래서 많은 사람들은 금융은 원래 어려운 것이라고 생각하고, 모르는 것을 질문하는 것조차 망설이게 됩니다.
+          DON'T KNOW MONEY는 바로 그 지점에서 시작했습니다.
+        </p>
+      </section>
+
+      <section class="about-section" aria-labelledby="mission-title">
+        <p class="eyebrow">02 WHY WE EXIST</p>
+        <h2 class="about-title" id="mission-title">
+          정보보다<br />
+          이해가 먼저입니다.
+        </h2>
+        <p class="about-copy">
+          인터넷에는 금융 정보가 넘쳐납니다. 하지만 정보를 많이 아는 것과 제대로 이해하는 것은 전혀 다른 문제입니다.
+          우리는 더 많은 정보를 전달하기보다, 더 많은 사람들이 이해할 수 있도록 만드는 일을 중요하게 생각합니다.
+          단순히 쉬운 말로 바꾸는 것이 아니라, 왜 그런 현상이 일어나는지, 우리의 삶과 어떤 연결이 있는지까지 함께 설명하는 것.
+          그것이 우리가 콘텐츠를 만드는 방식입니다.
+        </p>
+      </section>
+
+      <section class="about-section" aria-labelledby="content-title">
+        <p class="eyebrow">03 CONTENT</p>
+        <h2 class="about-title" id="content-title">
+          금융을 읽는<br />
+          기준을 만듭니다.
+        </h2>
+        <p class="about-copy">
+          우리는 특정 종목을 추천하거나 시장을 예측하는 콘텐츠를 만들지 않습니다.
+          경제와 투자, 기업과 시장을 바라보는 기준을 만드는 콘텐츠를 지향합니다.
+          뉴스를 읽을 때도, 기업을 분석할 때도, 투자 결정을 내릴 때도 스스로 생각하고 판단할 수 있도록 돕는 것.
+          좋은 투자는 좋은 정보보다 좋은 이해에서 시작된다고 믿습니다.
+        </p>
+      </section>
+
+      <section class="about-section" aria-labelledby="belief-title">
+        <p class="eyebrow">04 BELIEF</p>
+        <h2 class="about-title" id="belief-title">
+          금융은 특별한 사람들만의<br />
+          언어가 아닙니다.
+        </h2>
+        <p class="about-copy">
+          월급을 받고, 소비를 하고, 저축을 하고, 대출을 받고, 투자를 시작하는 모든 순간에는 돈이 있습니다.
+          결국 금융은 전문가만을 위한 지식이 아니라 누구에게나 필요한 생활의 언어입니다.
+          우리는 금융을 더 많은 사람들이 이해할 수 있는 언어로 번역하고, 누구나 자신의 삶 속에서 활용할 수 있도록 만드는 것을 목표로 합니다.
+        </p>
+      </section>
+
+      <section class="about-section" aria-labelledby="community-title">
+        <p class="eyebrow">05 COMMUNITY</p>
+        <h2 class="about-title" id="community-title">
+          함께 이해하는 공간
+        </h2>
+        <p class="about-copy">
+          우리는 금융을 잘 아는 사람만 이야기하는 공간을 만들고 싶지 않습니다.
+          처음 배우는 사람도 부담 없이 질문할 수 있고, 서로의 경험과 생각을 나누며 함께 성장할 수 있는 공간을 만들고 싶습니다.
+          누군가의 의견을 맹목적으로 따라가기보다 자신의 기준을 만들어가는 사람들,
+          지식을 경쟁하기보다 이해를 나누는 사람들이 모이는 커뮤니티.
+          그것이 DON'T KNOW MONEY가 꿈꾸는 모습입니다.
+        </p>
+      </section>
+
+      <section class="about-section" aria-labelledby="direction-title">
+        <p class="eyebrow">06 DIRECTION</p>
+        <h2 class="about-title" id="direction-title">
+          DON'T KNOW is<br />
+          where we begin.
+        </h2>
+        <p class="about-copy">
+          DON'T KNOW MONEY라는 이름은 단순히 돈을 모른다는 의미가 아닙니다.
+          모든 이해는 모른다는 사실을 인정하는 순간부터 시작된다는 우리의 믿음을 담고 있습니다.
+          우리는 금융을 가르치려 하지 않습니다.
+          더 많은 사람들이 금융을 이해하고, 스스로 판단할 수 있도록 돕고 싶습니다.
+          그것이 우리가 앞으로도 계속 만들고 싶은 커뮤니티의 모습입니다.
+        </p>
+      </section>
+
+      <section class="about-section" aria-labelledby="closing-title">
+        <h2 class="closing-title" id="closing-title">
+          우리는 금융을<br />
+          가르치려 하지 않습니다.<br />
+          <span class="accent">함께 이해하려 합니다.</span>
+        </h2>
+
+        <div class="button-row">
+          <a class="button primary" href="index.html#feed">FEED 보기 ↵</a>
+          <a class="button" href="index.html">MAGAZINE으로</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
