@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QUIZ | DON'T KNOW MONEY</title>
+  <style>
+    :root {
+      --bg: #17171d;
+      --panel: #1c1c23;
+      --line: rgba(255,255,255,.34);
+      --soft-line: rgba(255,255,255,.14);
+      --text: #f2f2f4;
+      --muted: #9b9ba4;
+      --accent: #ffe65b;
+      --good: #4fe38a;
+      --bad: #ff6b6b;
+      --header-height: 69px;
+      --max-width: 1200px;
+      --header-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      background: rgba(23,23,29,.9);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      width: min(calc(100% - 48px), var(--header-width));
+      margin: 0 auto;
+      padding: 18px 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+
+    .brand::before {
+      content: "";
+      width: 3px;
+      height: 38px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .brand-wordmark {
+      display: grid;
+      gap: 1px;
+      font-size: 14px;
+      font-weight: 680;
+      line-height: .9;
+      letter-spacing: .01em;
+    }
+
+    .brand-apostrophe,
+    .accent {
+      color: var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #c7c7cc;
+    }
+
+    .nav a {
+      transition: color .2s ease;
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #fff;
+    }
+
+    .menu-toggle {
+      display: none;
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 720;
+      letter-spacing: .04em;
+      cursor: pointer;
+    }
+
+    .quiz-layout {
+      width: min(calc(100% - 48px), var(--max-width));
+      min-height: calc(100svh - var(--header-height));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(240px, 30%) minmax(0, 1fr);
+      gap: clamp(48px, 5.5vw, 86px);
+      padding: 64px 0 96px;
+      align-items: start;
+    }
+
+    .quiz-aside {
+      position: sticky;
+      top: calc(var(--header-height) + 56px);
+      height: calc(100svh - var(--header-height) - 112px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 38px;
+    }
+
+    .quiz-wordmark {
+      margin: 0;
+      font-size: clamp(58px, 7vw, 104px);
+      font-weight: 660;
+      line-height: .92;
+      letter-spacing: -0.055em;
+    }
+
+    .quiz-wordmark .quiz-line {
+      display: block;
+    }
+
+    .quiz-wordmark .quiz-highlight {
+      color: var(--accent);
+      font-size: inherit;
+    }
+
+    .quiz-intro {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(22px, 2.2vw, 34px);
+      font-weight: 650;
+      line-height: 1.38;
+      letter-spacing: -0.045em;
+      word-break: keep-all;
+    }
+
+    .quiz-intro::after {
+      content: "";
+      display: none;
+      width: 100%;
+      height: 1px;
+      margin-top: 28px;
+      background: var(--line);
+    }
+
+    .quiz-intro .dim {
+      display: contents;
+      color: inherit;
+      font: inherit;
+      letter-spacing: inherit;
+    }
+
+    .quiz-panel {
+      width: 100%;
+      min-width: 0;
+      padding-top: 8px;
+    }
+
+    .quiz-board {
+      width: 100%;
+      margin-left: 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      padding: 0;
+    }
+
+    .primary-button {
+      min-height: 46px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0 20px;
+      font-size: 13px;
+      font-weight: 760;
+      letter-spacing: -0.01em;
+      transition:
+        background .18s ease,
+        border-color .18s ease,
+        color .18s ease,
+        transform .18s ease;
+    }
+
+    .primary-button:disabled {
+      display: none;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .question-card {
+      padding: clamp(30px, 4vw, 46px) 0 clamp(18px, 2.6vw, 26px);
+    }
+
+    .question-title {
+      margin: 0 0 clamp(28px, 3.4vw, 38px);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      font-size: clamp(28px, 3.45vw, 40px);
+      font-weight: 620;
+      line-height: 1.2;
+      letter-spacing: -0.055em;
+      word-break: keep-all;
+      text-align: left;
+    }
+
+    .question-prefix {
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .question-copy {
+      min-width: 0;
+    }
+
+    .options {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--soft-line);
+    }
+
+    .option-button {
+      position: relative;
+      width: 100%;
+      min-height: 64px;
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      align-items: center;
+      gap: 14px;
+      border: 0;
+      border-bottom: 1px solid var(--soft-line);
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+      padding: 12px 0;
+      text-align: left;
+      transition:
+        background .18s ease,
+        border-color .18s ease,
+        color .18s ease,
+        transform .18s ease;
+    }
+
+    .option-button:hover:not(:disabled),
+    .option-button:focus-visible {
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      outline: none;
+    }
+
+    .option-button:disabled {
+      cursor: default;
+    }
+
+    .option-button.correct {
+      border-color: var(--soft-line);
+      background: rgba(79, 227, 138, .12);
+      color: var(--text);
+    }
+
+    .option-button.wrong {
+      border-color: var(--soft-line);
+      background: rgba(255, 107, 107, .12);
+      color: var(--text);
+    }
+
+    .option-letter {
+      width: auto;
+      height: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-radius: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 760;
+      letter-spacing: .06em;
+    }
+
+    .option-text {
+      min-width: 0;
+      font-size: clamp(19px, 1.7vw, 24px);
+      font-weight: 620;
+      line-height: 1.34;
+      letter-spacing: -0.035em;
+      word-break: keep-all;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 18px;
+      padding: 18px 0 0;
+      border-top: 1px solid var(--soft-line);
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback-title {
+      margin: 0 0 8px;
+      font-size: 17px;
+      font-weight: 760;
+      letter-spacing: -0.025em;
+    }
+
+    .feedback-title.good {
+      color: var(--good);
+    }
+
+    .feedback-title.bad {
+      color: var(--bad);
+    }
+
+    .feedback-copy {
+      margin: 0;
+      color: #c7c7cc;
+      font-size: clamp(15px, 1.15vw, 17px);
+      font-weight: 520;
+      line-height: 1.68;
+      letter-spacing: -0.025em;
+      word-break: keep-all;
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .empty-state {
+      border-top: 1px solid var(--line);
+      padding: 34px 0;
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 620;
+      line-height: 1.6;
+      letter-spacing: -0.025em;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 1024px) {
+      .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 18px 24px 20px;
+        border-bottom: 1px solid rgba(255,255,255,.12);
+        background: rgba(23,23,29,.96);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease;
+      }
+
+      .site-header.menu-open .nav {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav a {
+        width: 100%;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        font-size: 18px;
+        font-weight: 720;
+      }
+
+      .nav a:last-child {
+        border-bottom: 0;
+      }
+
+      .nav a.active {
+        color: var(--accent);
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 54px;
+        min-height: 38px;
+      }
+
+      .quiz-layout {
+        grid-template-columns: 1fr;
+        gap: 66px;
+        min-height: auto;
+        padding: 54px 0 76px;
+      }
+
+      .quiz-aside {
+        position: static;
+        height: auto;
+        gap: 38px;
+      }
+
+      .quiz-panel {
+        padding-top: 0;
+      }
+
+    }
+
+    @media (max-width: 720px) {
+      :root {
+        --header-height: 63px;
+      }
+
+      .header-inner {
+        width: auto;
+        padding: 14px 18px 12px;
+      }
+
+      .nav {
+        left: 18px;
+        right: 18px;
+        padding: 16px 0 18px;
+      }
+
+      .brand::before {
+        height: 34px;
+        width: 3px;
+      }
+
+      .brand-wordmark {
+        font-size: 13px;
+      }
+
+      .quiz-layout {
+        width: min(calc(100% - 30px), var(--max-width));
+        gap: 24px;
+      }
+
+      .quiz-wordmark {
+        font-size: clamp(48px, 13.8vw, 76px);
+        line-height: .92;
+        letter-spacing: -0.06em;
+      }
+
+      .quiz-intro {
+        font-size: 22px;
+      }
+
+      .quiz-intro .dim {
+        font: inherit;
+      }
+
+      .primary-button {
+        min-height: 40px;
+        padding: 0 14px;
+      }
+
+      .question-title {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 16px;
+        margin-bottom: 18px;
+        text-align: left;
+      }
+
+      .question-prefix {
+        margin-right: 0;
+      }
+
+      .option-button {
+        grid-template-columns: 44px minmax(0, 1fr);
+        min-height: 60px;
+        gap: 12px;
+        padding: 11px 0;
+      }
+
+      .quiz-actions {
+        justify-content: stretch;
+      }
+
+      .quiz-actions button {
+        flex: 1;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DON'T KNOW MONEY 홈">
+        <span class="brand-wordmark" aria-hidden="true">
+          <span>DON<span class="brand-apostrophe">'</span>T</span>
+          <span>KNOW</span>
+          <span>MONEY</span>
+        </span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-text">MENU</span>
+      </button>
+
+      <nav class="nav" id="site-nav" aria-label="주요 메뉴">
+        <a href="index.html">MAGAZINE</a>
+        <a href="about.html">ABOUT US</a>
+        <a href="feed.html">FEED</a>
+        <a class="active" href="quiz.html">QUIZ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="quiz-layout">
+    <aside class="quiz-aside" aria-labelledby="quiz-title">
+      <h1 class="quiz-wordmark" id="quiz-title">
+        <span class="quiz-line">DON<span class="accent">'</span>T KNOW</span>
+        <span class="quiz-line">MONEY <span class="quiz-highlight">QUIZ</span></span>
+      </h1>
+      <p class="quiz-intro">
+        <span class="dim">뉴스에서 자주 만나는 <br />
+          경제 용어를 퀴즈로 확인!</span>
+      </p>
+    </aside>
+
+    <section class="quiz-panel" aria-label="돈노돈 퀴즈">
+      <div class="quiz-board">
+        <div class="empty-state" id="loading-state">퀴즈를 불러오는 중입니다.</div>
+
+        <article class="question-card hidden" id="question-card">
+          <h2 class="question-title" id="question-text"></h2>
+          <div class="options" id="options"></div>
+
+          <div class="feedback" id="feedback" aria-live="polite">
+            <p class="feedback-title" id="feedback-title"></p>
+            <p class="feedback-copy" id="feedback-copy"></p>
+          </div>
+
+          <div class="quiz-actions">
+            <button class="primary-button" type="button" id="next-button" disabled>다른 문제 보기</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const siteHeader = document.querySelector('.site-header');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const menuToggleText = document.querySelector('.menu-toggle-text');
+    const menuLinks = document.querySelectorAll('.nav a');
+
+    menuToggle?.addEventListener('click', () => {
+      const isOpen = siteHeader.classList.toggle('menu-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggleText.textContent = isOpen ? 'CLOSE' : 'MENU';
+    });
+
+    menuLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        siteHeader.classList.remove('menu-open');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        if (menuToggleText) menuToggleText.textContent = 'MENU';
+      });
+    });
+
+    const letters = ['01', '02', '03', '04'];
+    const state = {
+      allQuestions: [],
+      currentQuestion: null,
+      selected: false,
+      lastQuestionId: null
+    };
+
+    const el = {
+      loading: document.querySelector('#loading-state'),
+      questionCard: document.querySelector('#question-card'),
+      questionText: document.querySelector('#question-text'),
+      options: document.querySelector('#options'),
+      feedback: document.querySelector('#feedback'),
+      feedbackTitle: document.querySelector('#feedback-title'),
+      feedbackCopy: document.querySelector('#feedback-copy'),
+      nextButton: document.querySelector('#next-button')
+    };
+
+    async function loadQuiz() {
+      try {
+        const response = await fetch('donodon_quiz.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('quiz json not found');
+        const data = await response.json();
+        state.allQuestions = data.questions;
+        pickRandomQuestion();
+      } catch (error) {
+        el.loading.textContent = 'donodon_quiz.json을 불러오지 못했습니다. 로컬 서버에서 quiz.html을 열어주세요.';
+      }
+    }
+
+    function pickRandomQuestion() {
+      state.selected = false;
+
+      if (!state.allQuestions.length) {
+        el.loading.classList.remove('hidden');
+        el.loading.textContent = '아직 등록된 문제가 없습니다.';
+        el.questionCard.classList.add('hidden');
+        return;
+      }
+
+      const candidates = state.allQuestions.length > 1
+        ? state.allQuestions.filter((question) => question.id !== state.lastQuestionId)
+        : state.allQuestions;
+      state.currentQuestion = candidates[Math.floor(Math.random() * candidates.length)];
+      state.lastQuestionId = state.currentQuestion.id;
+
+      el.questionCard.classList.remove('hidden');
+      el.loading.classList.add('hidden');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const question = state.currentQuestion;
+      state.selected = false;
+
+      el.feedback.classList.remove('show');
+      el.feedbackTitle.className = 'feedback-title';
+      el.nextButton.disabled = true;
+      el.nextButton.textContent = '다른 문제 보기';
+      el.questionText.innerHTML = `<span class="question-prefix">Q.</span><span class="question-copy">${question.question}</span>`;
+
+      el.options.innerHTML = question.options.map((option, index) => (
+        `<button class="option-button" type="button" data-index="${index}">
+          <span class="option-letter">${letters[index]}</span>
+          <span class="option-text">${option}</span>
+        </button>`
+      )).join('');
+
+      el.options.querySelectorAll('button').forEach((button) => {
+        button.addEventListener('click', () => selectAnswer(Number(button.dataset.index)));
+      });
+    }
+
+    function selectAnswer(selectedIndex) {
+      if (state.selected) return;
+      const question = state.currentQuestion;
+      const isCorrect = selectedIndex === question.answer;
+      state.selected = true;
+
+      el.options.querySelectorAll('button').forEach((button) => {
+        const buttonIndex = Number(button.dataset.index);
+        button.disabled = true;
+        if (buttonIndex === question.answer) button.classList.add('correct');
+        if (buttonIndex === selectedIndex && !isCorrect) button.classList.add('wrong');
+      });
+
+      el.feedbackTitle.textContent = isCorrect ? '정답입니다' : `아쉬워요. 정답은 ${letters[question.answer]}번입니다`;
+      el.feedbackTitle.classList.add(isCorrect ? 'good' : 'bad');
+      el.feedbackCopy.textContent = question.explanation;
+      el.feedback.classList.add('show');
+      el.nextButton.disabled = false;
+    }
+
+    el.nextButton.addEventListener('click', () => {
+      pickRandomQuestion();
+    });
+
+    loadQuiz();
+  </script>
+</body>
+</html>

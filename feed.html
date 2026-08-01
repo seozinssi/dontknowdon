@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FEED | DON'T KNOW MONEY</title>
+  <style>
+    :root {
+      --bg: #17171d;
+      --line: rgba(255,255,255,.46);
+      --text: #f2f2f4;
+      --muted: #9b9ba4;
+      --accent: #ffe65b;
+      --header-height: 69px;
+      --max-width: 1200px;
+      --header-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        Pretendard,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      background: rgba(23,23,29,.9);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      width: min(calc(100% - 48px), var(--header-width));
+      margin: 0 auto;
+      padding: 18px 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+
+    .brand::before {
+      content: "";
+      width: 3px;
+      height: 38px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    .brand-wordmark {
+      display: grid;
+      gap: 1px;
+      font-size: 14px;
+      font-weight: 680;
+      line-height: .9;
+      letter-spacing: .01em;
+    }
+
+    .brand-apostrophe,
+    .accent {
+      color: var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #c7c7cc;
+    }
+
+    .nav a {
+      transition: color .2s ease;
+      white-space: nowrap;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: #fff;
+    }
+
+    .menu-toggle {
+      display: none;
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 720;
+      letter-spacing: .04em;
+      cursor: pointer;
+    }
+
+    .feed-layout {
+      width: min(calc(100% - 48px), var(--max-width));
+      min-height: calc(100vh - var(--header-height));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(240px, 30%) minmax(0, 1fr);
+      gap: clamp(48px, 5.5vw, 86px);
+      padding: 64px 0 96px;
+      align-items: start;
+    }
+
+    .feed-aside {
+      position: sticky;
+      top: calc(var(--header-height) + 56px);
+      height: calc(100vh - var(--header-height) - 112px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 38px;
+    }
+
+    .feed-wordmark {
+      max-width: 640px;
+      margin: 0;
+      font-size: clamp(58px, 7vw, 104px);
+      font-weight: 660;
+      line-height: .92;
+      letter-spacing: -0.055em;
+    }
+
+    .feed-wordmark .line {
+      display: block;
+    }
+
+    .feed-wordmark .highlight {
+      color: var(--accent);
+    }
+
+    .feed-tagline {
+      max-width: 520px;
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(22px, 2.2vw, 34px);
+      font-weight: 650;
+      line-height: 1.38;
+      letter-spacing: -0.045em;
+      word-break: keep-all;
+    }
+
+    .feed-main {
+      min-width: 0;
+      padding-top: 8px;
+    }
+
+    .edition-list {
+      padding-bottom: 10px;
+    }
+
+    .edition-item {
+      position: relative;
+      display: block;
+      min-height: 82px;
+      border-top: 1px solid var(--line);
+      overflow: hidden;
+      transition:
+        background .22s ease,
+        color .22s ease;
+    }
+
+    .edition-item:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .edition-item::after {
+      content: "↵";
+      position: absolute;
+      top: 50%;
+      right: 28px;
+      z-index: 4;
+      color: var(--bg);
+      font-size: clamp(26px, 2.8vw, 42px);
+      font-weight: 620;
+      line-height: 1;
+      opacity: 0;
+      transform: translateY(-50%) translateX(-8px);
+      transition:
+        opacity .2s ease,
+        transform .28s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .edition-title {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      min-height: 82px;
+      padding: 14px 84px 14px 24px;
+      font-size: clamp(30px, 3.5vw, 46px);
+      font-weight: 620;
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+    }
+
+    .edition-ep {
+      flex: 0 0 4.65ch;
+      color: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .edition-item:hover,
+    .edition-item:focus-visible {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .edition-item:hover::after,
+    .edition-item:focus-visible::after {
+      opacity: 1;
+      transform: translateY(-50%);
+    }
+
+    .edition-item:focus-visible {
+      outline: 3px solid #3182f6;
+      outline-offset: 5px;
+    }
+
+    @media (max-width: 1024px) {
+      .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 18px 24px 20px;
+        border-bottom: 1px solid rgba(255,255,255,.12);
+        background: rgba(23,23,29,.96);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease;
+      }
+
+      .site-header.menu-open .nav {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav a {
+        width: 100%;
+        padding: 13px 0;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        font-size: 18px;
+        font-weight: 720;
+      }
+
+      .nav a:last-child {
+        border-bottom: 0;
+      }
+
+      .nav a.active {
+        color: var(--accent);
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 54px;
+        min-height: 38px;
+      }
+
+      .feed-layout {
+        grid-template-columns: 1fr;
+        gap: 66px;
+        min-height: auto;
+        padding: 54px 0 76px;
+      }
+
+      .feed-aside {
+        position: static;
+        height: auto;
+        gap: 38px;
+      }
+
+      .feed-main {
+        padding-top: 0;
+      }
+    }
+
+    @media (max-width: 720px) {
+      :root {
+        --header-height: 63px;
+      }
+
+      .header-inner {
+        width: auto;
+        padding: 14px 18px 12px;
+      }
+
+      .nav {
+        left: 18px;
+        right: 18px;
+        padding: 16px 0 18px;
+      }
+
+      .brand::before {
+        height: 34px;
+        width: 3px;
+      }
+
+      .brand-wordmark {
+        font-size: 13px;
+      }
+
+      .feed-layout {
+        width: min(calc(100% - 30px), var(--max-width));
+        gap: 24px;
+      }
+
+      .feed-wordmark {
+        font-size: clamp(38px, 10.25vw, 44px);
+        line-height: .92;
+        letter-spacing: -0.06em;
+      }
+
+      .feed-tagline {
+        font-size: 22px;
+      }
+
+      .edition-item,
+      .edition-title {
+        min-height: auto;
+      }
+
+      .edition-item {
+        min-height: 76px;
+      }
+
+      .edition-title {
+        min-height: 76px;
+        gap: 12px;
+        padding: 15px 4px;
+        font-size: clamp(18px, 5.35vw, 23px);
+        line-height: 1.16;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .edition-ep {
+        flex: 0 0 4.5ch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DON'T KNOW MONEY 홈">
+        <span class="brand-wordmark" aria-hidden="true">
+          <span>DON<span class="brand-apostrophe">'</span>T</span>
+          <span>KNOW</span>
+          <span>MONEY</span>
+        </span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-text">MENU</span>
+      </button>
+
+      <nav class="nav" id="site-nav" aria-label="주요 메뉴">
+        <a href="index.html">MAGAZINE</a>
+        <a href="about.html">ABOUT US</a>
+        <a class="active" href="feed.html">FEED</a>
+        <a href="quiz.html">QUIZ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="feed-layout">
+    <aside class="feed-aside" aria-labelledby="feed-title">
+      <h1 class="feed-wordmark" id="feed-title">
+        <span class="line">DON<span class="brand-apostrophe">'</span>T KNOW</span>
+        <span class="line">MONEY <span class="highlight">FEED</span></span>
+      </h1>
+      <p class="feed-tagline">
+        쉽게 요약하고,<br />
+        함께 이해하는 돈 이야기.
+      </p>
+    </aside>
+
+    <div class="feed-main">
+      <div class="edition-list" aria-label="피드 목록">
+        <a class="edition-item" href="feeds/1_etf_vs_stock_column.html">
+          <span class="edition-title"><span class="edition-ep">EP.01</span>ETF부터 하라는 이유</span>
+        </a>
+        <a class="edition-item" href="feeds/2_how_to_buy_and_sell_stocks.html">
+          <span class="edition-title"><span class="edition-ep">EP.02</span>주식은 어떻게 사고팔까?</span>
+        </a>
+        <a class="edition-item" href="feeds/3_how_college_students_study_stocks.html">
+          <span class="edition-title"><span class="edition-ep">EP.03</span>대학생의 주식 공부법</span>
+        </a>
+        <a class="edition-item" href="feeds/4_deposit_vs_installment_savings.html">
+          <span class="edition-title"><span class="edition-ep">EP.04</span>예금과 적금, 뭐가 다를까?</span>
+        </a>
+        <a class="edition-item" href="feeds/5_isa_vs_cma_article.html">
+          <span class="edition-title"><span class="edition-ep">EP.05</span>ISA와 CMA의 차이</span>
+        </a>
+        <a class="edition-item" href="feeds/6.etf_vs_stock_readable_article.html">
+          <span class="edition-title"><span class="edition-ep">EP.06</span>처음엔 왜 ETF일까?</span>
+        </a>
+        <a class="edition-item" href="feeds/7.Hawk_vs_Dove_Fed_Explained.html">
+          <span class="edition-title"><span class="edition-ep">EP.07</span>매파와 비둘기파</span>
+        </a>
+        <a class="edition-item" href="feeds/8.How_to_Read_ETF_Names.html">
+          <span class="edition-title"><span class="edition-ep">EP.08</span>ETF 이름 읽는 법</span>
+        </a>
+        <a class="edition-item" href="feeds/9.Compound_Interest_Explained.html">
+          <span class="edition-title"><span class="edition-ep">EP.09</span>복리는 왜 중요할까?</span>
+        </a>
+        <a class="edition-item" href="feeds/10.Youth_Future_Savings_vs_Youth_Leap_Account.html">
+          <span class="edition-title"><span class="edition-ep">EP.10</span>청년미래적금 vs 도약계좌</span>
+        </a>
+        <a class="edition-item" href="feeds/11.How_to_Read_ETF_Names.html">
+          <span class="edition-title"><span class="edition-ep">EP.11</span>ETF 이름 읽는 법</span>
+        </a>
+        <a class="edition-item" href="feeds/12.Single_Stock_Leverage_ETF.html">
+          <span class="edition-title"><span class="edition-ep">EP.12</span>레버리지 ETF, 괜찮을까?</span>
+        </a>
+        <a class="edition-item" href="feeds/13.why_interest_rates_move_stocks.html">
+          <span class="edition-title"><span class="edition-ep">EP.13</span>금리와 주식시장</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const siteHeader = document.querySelector('.site-header');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const menuToggleText = document.querySelector('.menu-toggle-text');
+    const menuLinks = document.querySelectorAll('.nav a');
+
+    menuToggle?.addEventListener('click', () => {
+      const isOpen = siteHeader.classList.toggle('menu-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggleText.textContent = isOpen ? 'CLOSE' : 'MENU';
+    });
+
+    menuLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        siteHeader.classList.remove('menu-open');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        if (menuToggleText) menuToggleText.textContent = 'MENU';
+      });
+    });
+  </script>
+</body>
+</html>

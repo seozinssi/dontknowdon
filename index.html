@@ -455,12 +455,12 @@
 
     .intro-panel .intro-lead {
       max-width: 720px;
-      margin-top: 72px;
-      margin-bottom: 36px;
+      margin: 0;
       color: var(--text);
       font-size: clamp(22px, 2.2vw, 34px);
       font-weight: 650;
       line-height: 1.38;
+      letter-spacing: -0.045em;
     }
 
     .intro-note {
@@ -591,6 +591,257 @@
       outline-offset: 5px;
     }
 
+    .home-quiz-layout {
+      width: min(calc(100% - 48px), var(--max-width));
+      min-height: calc(100vh - var(--header-height));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(240px, 30%) minmax(0, 1fr);
+      gap: clamp(48px, 5.5vw, 86px);
+      padding: 96px 0 96px;
+      align-items: start;
+    }
+
+    .home-quiz-aside {
+      position: sticky;
+      top: calc(var(--header-height) + 56px);
+      height: calc(100vh - var(--header-height) - 112px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 38px;
+    }
+
+    .home-quiz-wordmark {
+      margin: 0;
+      font-size: clamp(58px, 7vw, 104px);
+      font-weight: 660;
+      line-height: .92;
+      letter-spacing: -0.055em;
+    }
+
+    .home-quiz-wordmark .line {
+      display: block;
+    }
+
+    .home-quiz-wordmark .highlight {
+      color: var(--accent);
+    }
+
+    .home-quiz-intro {
+      max-width: 520px;
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(22px, 2.2vw, 34px);
+      font-weight: 650;
+      line-height: 1.38;
+      letter-spacing: -0.045em;
+      word-break: keep-all;
+    }
+
+    .home-quiz-intro::after {
+      content: "";
+      display: none;
+      width: 100%;
+      height: 1px;
+      margin-top: 28px;
+      background: var(--line);
+    }
+
+    .home-quiz-panel {
+      min-width: 0;
+      padding-top: 8px;
+    }
+
+    .home-quiz-board {
+      width: 100%;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .home-question-card {
+      padding: clamp(30px, 4vw, 46px) 0 clamp(18px, 2.6vw, 26px);
+    }
+
+    .home-question-title {
+      margin: 0 0 clamp(28px, 3.4vw, 38px);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      font-size: clamp(28px, 3.45vw, 40px);
+      font-weight: 620;
+      line-height: 1.2;
+      letter-spacing: -0.055em;
+      word-break: keep-all;
+    }
+
+    .home-question-prefix {
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .home-question-copy {
+      min-width: 0;
+    }
+
+    .home-options {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--soft-line, rgba(255,255,255,.14));
+    }
+
+    .home-option-button {
+      width: 100%;
+      min-height: 64px;
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      align-items: center;
+      gap: 14px;
+      border: 0;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+      padding: 12px 0;
+      text-align: left;
+      font: inherit;
+      cursor: pointer;
+      transition: background .18s ease, color .18s ease;
+    }
+
+    .home-option-button:hover:not(:disabled),
+    .home-option-button:focus-visible {
+      background: rgba(255,255,255,.08);
+      outline: none;
+    }
+
+    .home-option-button:disabled {
+      cursor: default;
+    }
+
+    .home-option-button.correct {
+      background: rgba(79, 227, 138, .12);
+    }
+
+    .home-option-button.wrong {
+      background: rgba(255, 107, 107, .12);
+    }
+
+    .home-option-letter {
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 760;
+      letter-spacing: .06em;
+    }
+
+    .home-option-text {
+      min-width: 0;
+      font-size: clamp(19px, 1.7vw, 24px);
+      font-weight: 620;
+      line-height: 1.34;
+      letter-spacing: -0.035em;
+      word-break: keep-all;
+    }
+
+    .home-feedback {
+      display: none;
+      margin-top: 18px;
+      padding: 18px 0 0;
+      border-top: 1px solid rgba(255,255,255,.14);
+    }
+
+    .home-feedback.show {
+      display: block;
+    }
+
+    .home-feedback-title {
+      margin: 0 0 8px;
+      font-size: 17px;
+      font-weight: 760;
+      letter-spacing: -0.025em;
+    }
+
+    .home-feedback-title.good {
+      color: #4fe38a;
+    }
+
+    .home-feedback-title.bad {
+      color: #ff6b6b;
+    }
+
+    .home-feedback-copy {
+      margin: 0;
+      color: #c7c7cc;
+      font-size: clamp(15px, 1.15vw, 17px);
+      font-weight: 520;
+      line-height: 1.68;
+      letter-spacing: -0.025em;
+      word-break: keep-all;
+    }
+
+    .home-quiz-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    .home-quiz-button {
+      min-height: 46px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0 20px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 760;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: transform .18s ease;
+    }
+
+    .home-quiz-button:disabled {
+      display: none;
+    }
+
+    .home-quiz-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .home-quiz-empty {
+      padding: 34px 0;
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 620;
+      line-height: 1.6;
+      letter-spacing: -0.025em;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .site-footer {
+      width: min(calc(100% - 48px), var(--max-width));
+      margin: 0 auto;
+      padding: 16px clamp(24px, 6vw, 44px) 24px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 760;
+      line-height: 1;
+      letter-spacing: .04em;
+      text-align: center;
+    }
+
+    @media (min-width: 721px) {
+      .site-footer {
+        padding: 48px 0 32px;
+        font-size: 10px;
+        text-align: center;
+      }
+    }
+
     /* ---------- about / manifesto content ---------- */
 
     @media (max-width: 1024px) {
@@ -649,9 +900,27 @@
         padding-top: 56px;
       }
 
+      .home-quiz-layout {
+        grid-template-columns: 1fr;
+        gap: 66px;
+        min-height: auto;
+        padding: 54px 0 76px;
+      }
+
+      .home-quiz-aside {
+        position: static;
+        height: auto;
+        gap: 38px;
+      }
+
+      .home-quiz-panel {
+        padding-top: 0;
+      }
+
       .intro-panel {
         position: static;
         min-height: auto;
+        gap: 38px;
       }
 
       .edition-title {
@@ -708,8 +977,23 @@
         padding: 64px 0 68px;
       }
 
+      .home-quiz-layout {
+        width: min(calc(100% - 30px), var(--max-width));
+        gap: 24px;
+      }
+
+      .home-quiz-wordmark {
+        font-size: clamp(48px, 13.8vw, 76px);
+        line-height: .92;
+        letter-spacing: -0.06em;
+      }
+
+      .home-quiz-intro {
+        font-size: 22px;
+      }
+
       .intro-panel .intro-lead {
-        margin-bottom: 8px;
+        margin: 0;
       }
 
       .hero-inner {
@@ -839,6 +1123,40 @@
         flex: 0 0 4.5ch;
       }
 
+      .home-question-title {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .home-question-prefix {
+        margin-right: 0;
+      }
+
+      .home-option-button {
+        grid-template-columns: 44px minmax(0, 1fr);
+        min-height: 60px;
+        gap: 12px;
+        padding: 11px 0;
+      }
+
+      .home-quiz-actions {
+        justify-content: stretch;
+      }
+
+      .home-quiz-button {
+        width: 100%;
+        min-height: 40px;
+        padding: 0 14px;
+      }
+
+      .site-footer {
+        width: min(calc(100% - 30px), var(--max-width));
+        padding: 16px 20px 24px;
+        font-size: 10px;
+      }
+
       .edition-item:hover .edition-title {
         transform: none;
       }
@@ -848,7 +1166,7 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="#" aria-label="DON'T KNOW MONEY 홈">
+      <a class="brand" href="index.html" aria-label="DON'T KNOW MONEY 홈">
         <span class="brand-wordmark" aria-hidden="true">
           <span>DON<span class="brand-apostrophe">'</span>T</span>
           <span>KNOW</span>
@@ -861,10 +1179,10 @@
       </button>
 
       <nav class="nav" id="site-nav" aria-label="주요 메뉴">
-        <a class="active" href="#">MAGAZINE</a>
+        <a class="active" href="index.html">MAGAZINE</a>
         <a href="about.html">ABOUT US</a>
-        <a href="#feed">FEED</a>
-        <a href="#">QUIZ</a>
+        <a href="feed.html">FEED</a>
+        <a href="quiz.html">QUIZ</a>
       </nav>
 
     </div>
@@ -901,11 +1219,11 @@
     <aside class="intro-panel" aria-labelledby="intro-title">
       <div>
         <h1 id="intro-title">DON<span class="intro-apostrophe">'</span>T KNOW<br />MONEY <br class="feed-break" /><span class="intro-feed-word">FEED</span></h1>
-        <p class="intro-lead">
-          쉽게 요약하고,<br />
-          함께 이해하는 돈 이야기.
-        </p>
       </div>
+      <p class="intro-lead">
+        쉽게 요약하고,<br />
+        함께 이해하는 돈 이야기.
+      </p>
     </aside>
 
     <div class="feed-panel" id="feed">
@@ -966,6 +1284,41 @@
       </section>
     </div>
   </main>
+  <section class="home-quiz-layout" id="quiz" aria-labelledby="home-quiz-title">
+    <aside class="home-quiz-aside">
+      <h1 class="home-quiz-wordmark" id="home-quiz-title">
+        <span class="line">DON<span class="intro-apostrophe">'</span>T KNOW</span>
+        <span class="line">MONEY <span class="highlight">QUIZ</span></span>
+      </h1>
+      <p class="home-quiz-intro">
+        뉴스에서 자주 만나는 <br />
+        경제 용어를 퀴즈로 확인해요.
+      </p>
+    </aside>
+
+    <div class="home-quiz-panel" aria-label="오늘의 퀴즈">
+      <div class="home-quiz-board">
+        <div class="home-quiz-empty" id="home-quiz-loading">퀴즈를 불러오는 중입니다.</div>
+
+        <article class="home-question-card hidden" id="home-question-card">
+          <h2 class="home-question-title" id="home-question-text"></h2>
+          <div class="home-options" id="home-options"></div>
+
+          <div class="home-feedback" id="home-feedback" aria-live="polite">
+            <p class="home-feedback-title" id="home-feedback-title"></p>
+            <p class="home-feedback-copy" id="home-feedback-copy"></p>
+          </div>
+
+          <div class="home-quiz-actions">
+            <button class="home-quiz-button" type="button" id="home-next-button" disabled>다른 문제 보기</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    © DON'T KNOW MONEY
+  </footer>
   </div>
 
   <script>
@@ -987,6 +1340,102 @@
         if (menuToggleText) menuToggleText.textContent = 'MENU';
       });
     });
+
+    const homeQuizLetters = ['01', '02', '03', '04'];
+    const homeQuizState = {
+      allQuestions: [],
+      currentQuestion: null,
+      selected: false,
+      lastQuestionId: null
+    };
+
+    const homeQuizEl = {
+      loading: document.querySelector('#home-quiz-loading'),
+      questionCard: document.querySelector('#home-question-card'),
+      questionText: document.querySelector('#home-question-text'),
+      options: document.querySelector('#home-options'),
+      feedback: document.querySelector('#home-feedback'),
+      feedbackTitle: document.querySelector('#home-feedback-title'),
+      feedbackCopy: document.querySelector('#home-feedback-copy'),
+      nextButton: document.querySelector('#home-next-button')
+    };
+
+    async function loadHomeQuiz() {
+      try {
+        const response = await fetch('donodon_quiz.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('quiz json not found');
+        const data = await response.json();
+        homeQuizState.allQuestions = data.questions;
+        pickHomeQuizQuestion();
+      } catch (error) {
+        homeQuizEl.loading.textContent = 'donodon_quiz.json을 불러오지 못했습니다. 로컬 서버에서 열어주세요.';
+      }
+    }
+
+    function pickHomeQuizQuestion() {
+      homeQuizState.selected = false;
+
+      if (!homeQuizState.allQuestions.length) {
+        homeQuizEl.loading.classList.remove('hidden');
+        homeQuizEl.loading.textContent = '아직 등록된 문제가 없습니다.';
+        homeQuizEl.questionCard.classList.add('hidden');
+        return;
+      }
+
+      const candidates = homeQuizState.allQuestions.length > 1
+        ? homeQuizState.allQuestions.filter((question) => question.id !== homeQuizState.lastQuestionId)
+        : homeQuizState.allQuestions;
+      homeQuizState.currentQuestion = candidates[Math.floor(Math.random() * candidates.length)];
+      homeQuizState.lastQuestionId = homeQuizState.currentQuestion.id;
+
+      homeQuizEl.questionCard.classList.remove('hidden');
+      homeQuizEl.loading.classList.add('hidden');
+      renderHomeQuizQuestion();
+    }
+
+    function renderHomeQuizQuestion() {
+      const question = homeQuizState.currentQuestion;
+      homeQuizState.selected = false;
+
+      homeQuizEl.feedback.classList.remove('show');
+      homeQuizEl.feedbackTitle.className = 'home-feedback-title';
+      homeQuizEl.nextButton.disabled = true;
+      homeQuizEl.questionText.innerHTML = `<span class="home-question-prefix">Q.</span><span class="home-question-copy">${question.question}</span>`;
+
+      homeQuizEl.options.innerHTML = question.options.map((option, index) => (
+        `<button class="home-option-button" type="button" data-index="${index}">
+          <span class="home-option-letter">${homeQuizLetters[index]}</span>
+          <span class="home-option-text">${option}</span>
+        </button>`
+      )).join('');
+
+      homeQuizEl.options.querySelectorAll('button').forEach((button) => {
+        button.addEventListener('click', () => selectHomeQuizAnswer(Number(button.dataset.index)));
+      });
+    }
+
+    function selectHomeQuizAnswer(selectedIndex) {
+      if (homeQuizState.selected) return;
+      const question = homeQuizState.currentQuestion;
+      const isCorrect = selectedIndex === question.answer;
+      homeQuizState.selected = true;
+
+      homeQuizEl.options.querySelectorAll('button').forEach((button) => {
+        const buttonIndex = Number(button.dataset.index);
+        button.disabled = true;
+        if (buttonIndex === question.answer) button.classList.add('correct');
+        if (buttonIndex === selectedIndex && !isCorrect) button.classList.add('wrong');
+      });
+
+      homeQuizEl.feedbackTitle.textContent = isCorrect ? '정답입니다' : `아쉬워요. 정답은 ${homeQuizLetters[question.answer]}번입니다`;
+      homeQuizEl.feedbackTitle.classList.add(isCorrect ? 'good' : 'bad');
+      homeQuizEl.feedbackCopy.textContent = question.explanation;
+      homeQuizEl.feedback.classList.add('show');
+      homeQuizEl.nextButton.disabled = false;
+    }
+
+    homeQuizEl.nextButton?.addEventListener('click', pickHomeQuizQuestion);
+    loadHomeQuiz();
   </script>
 </body>
 </html>
